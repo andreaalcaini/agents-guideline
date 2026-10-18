@@ -1,0 +1,26 @@
+services:
+  app:
+    image: ghcr.io/<USERNAME>/<REPO>:latest
+    container_name: app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - default
+      - cloudflared-mesh
+
+networks:
+  default:
+  cloudflared-mesh:
+    external: true
+    name: cloudflared-mesh
+    # Sotto il servizio specificare sempre:
+    # networks:
+    #   cloudflared-mesh:
+    #     aliases:
+    #       - <nomeservizio>.mesh
